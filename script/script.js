@@ -1,41 +1,7 @@
 let globalChart = null;
-// fetch('https://apicovid19indonesia-v2.vercel.app/api/indonesia/harian')
-//     .then(response => response.json())
-//     .then(res => {
-//         var momentDate = moment(res[500].tanggal)
-//         console.log(momentDate.day())
-//         let labels = [];
-//         let cases = [];
-//         res.forEach(element => {
-//              labels.push(element.tanggal);
-//              cases.push(element.positif);
-//         });
+let dynamicChart = null;
 
-//         document.querySelector('#loading').innerHTML = ""
-//         var myChart = new Chart(ctx, {
-//             type: 'line',
-//             data: {
-//                 labels: labels,
-//                 datasets: [{
-//                     label: 'COVID-19 Cases Indonesia',
-//                     data: bouncer(cases),
-//                     fill: false,
-//                     borderColor: 'rgb(75, 192, 192)',
-//                 },{
-//                     label: 'Model Linier',
-//                     data: linearModel(bouncer(cases)),
-//                     fill: false,
-//                     borderColor: 'rgb(192, 75, 192)',
-//                 }, {
-//                     label: 'Model Kuadratik',
-//                     data: quadraticModel(bouncer(cases)),
-//                     fill: false,
-//                     borderColor: 'rgb(192, 192, 75)',
-//                 }]
-//             }
-//         });
-//     })
-//     .catch(error => console.log(error));
+drawDynamicChart();
 
 drawChart(
     "Grafik Kasus Harian Covid-19 di Indonesia",
@@ -95,25 +61,25 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
       {
         label: titleline,
         data: bouncer(datapoint.kasus),
-        borderColor: "#003f5c",
-        backgroundColor: "#003f5c",
+        borderColor: "#0F00FF",
+        backgroundColor: "#0F00FF",
         fill: false,
         cubicInterpolationMode: "monotone",
       },
       {
-        label: "Model linear",
+        label: "Model Linear",
         data: linearModel(bouncer(datapoint.kasus)),
-        borderColor: "#bc5090",
-        backgroundColor: "#bc5090",
-        borderDash: [5, 5],
+        borderColor: "#FFA400",
+        backgroundColor: "#FFA400",
+        borderDash: [20, 10],
         fill: false,
         cubicInterpolationMode: "monotone",
       },
       {
-        label: "Model kuadrat",
+        label: "Model Kuadratik",
         data: quadraticModel(bouncer(datapoint.kasus)),
-        borderColor: "#ffa600",
-        backgroundColor: "#ffa600",
+        borderColor: "#E02401",
+        backgroundColor: "#E02401",
         borderDash: [20, 10],
         fill: false,
         cubicInterpolationMode: "monotone",
@@ -167,6 +133,124 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
     },
   };
   globalChart = new Chart(ctx, config);
+}
+
+async function drawDynamicChart(){
+  var dynamic = document.getElementById('dynamic').getContext('2d');
+  // <block:data:2>
+  let data = await getData();
+  // </block:data>
+
+  // <block:animation:1>
+  const totalDuration = 10000;
+  const delayBetweenPoints = totalDuration / data.kasus.length;
+  const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+  const animation = {
+    x: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from: NaN, // the point is initially skipped
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.xStarted) {
+          return 0;
+        }
+        ctx.xStarted = true;
+        return ctx.index * delayBetweenPoints;
+      }
+    },
+    y: {
+      type: 'number',
+      easing: 'linear',
+      duration: delayBetweenPoints,
+      from: previousY,
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.yStarted) {
+          return 0;
+        }
+        ctx.yStarted = true;
+        return ctx.index * delayBetweenPoints;
+      }
+    }
+  };
+  // </block:animation>
+  console.log(data.tgl)
+  // <block:config:0>
+  const config = {
+    type: 'line',
+    data: {
+      labels: data.tgl,
+      datasets: [{
+        label: 'Jumlah Kasus',
+        data: bouncer(data.kasus),
+        borderColor: "#0F00FF",
+        backgroundColor: "#0F00FF",
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      },
+      {
+        label: "Model Linear",
+        data: linearModel(bouncer(data.kasus)),
+        borderColor: "#FFA400",
+        backgroundColor: "#FFA400",
+        borderDash: [20, 10],
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      },
+      {
+        label: "Model Kuadratik",
+        data: quadraticModel(bouncer(data.kasus)),
+        borderColor: "#E02401",
+        backgroundColor: "#E02401",
+        borderDash: [20, 10],
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      }]
+    },
+    options: {
+      animation,
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
+      aspectRatio: 1.4,
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Grafik Dinamis Kasus Harian Covid-19 Indonesia',
+          font: {
+            size: 20,
+          },
+        },
+      },
+      interaction: {
+        intersect: false,
+      },
+      layout: {
+        padding: 3,
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: 'Tanggal',
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: 'Jumlah Kasus',
+          },
+        },
+      },
+    }
+  };
+  // </block:config>
+  dynamicChart = new Chart(dynamic, config);
 }
 
 async function getData() {
