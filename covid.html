@@ -32,6 +32,11 @@
             <div class="card shadow">
                   <div class="card-body">
                         <button class="btn btn-success" id="btn-dynamic" onclick="drawDynamicChart()"><i class="bi bi-play-fill"></i></button>
+                        <div class="d-flex justify-content-center">
+                              <div class="text-primary" role="status" id="spinner-dynamic">
+                                    <span class="visually-hidden">Loading...</span>
+                              </div>
+                        </div>
                         <canvas id="dynamic" width="100%" height="100%"></canvas>
                   </div>
             </div>
@@ -76,6 +81,11 @@
 
             <div class="card shadow">
                   <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                              <div class="text-primary" role="status" id="spinner-cases">
+                                    <span class="visually-hidden">Loading...</span>
+                              </div>
+                        </div>
                         <canvas id="myChart" width="100%" height="100%"></canvas>
                   </div>
             </div>

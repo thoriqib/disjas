@@ -143,6 +143,7 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
   //data
   var ctx = document.getElementById('myChart').getContext('2d');
   Chart.defaults.scales.linear.min = 0;
+  document.getElementById('spinner-cases').classList.add('spinner-border');
   const datapoint = await getData();
   const panjang = datapoint.tgl.length;
 
@@ -249,14 +250,17 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
       },
     },
   };
+  document.getElementById('spinner-cases').classList.remove('spinner-border');
   globalChart = new Chart(ctx, config);
 }
 
 async function drawDynamicChart(){
+  document.getElementById('spinner-dynamic').classList.add('spinner-border');
   if (dynamicChart != null) dynamicChart.destroy();
   var dynamic = document.getElementById('dynamic').getContext('2d');
   // <block:data:2>
   let data = await getData();
+  document.getElementById('spinner-dynamic').classList.remove('spinner-border');
   // </block:data>
 
   // <block:animation:1>
