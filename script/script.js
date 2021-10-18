@@ -22,6 +22,123 @@ function graph() {
   );
 }
 
+async function graphByDate() {
+  let dateStart = document.getElementById("date-start");
+  let dateEnd = document.getElementById("date-end");
+
+  let temp1 = moment(dateStart.value)
+  let temp2 = moment(dateEnd.value)
+
+  dateStart = temp1.format("YYYY-MM-DD")
+  dateEnd = temp2.format("YYYY-MM-DD")
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  Chart.defaults.scales.linear.min = 0;
+  const datapoint = await getData();
+
+  let indexStart = datapoint.tgl.indexOf(dateStart);
+  let indexEnd = datapoint.tgl.indexOf(dateEnd);
+
+  console.log(indexStart)
+  console.log(indexEnd)
+
+  if(indexEnd < indexStart){
+    let temp = indexEnd;
+    indexEnd = indexStart;
+    indexStart = temp;
+  }
+
+  console.log(indexStart)
+  console.log(indexEnd)
+
+  const tgl = datapoint.tgl.slice(indexStart, indexEnd);
+  const kasus = datapoint.kasus.slice(indexStart, indexEnd);
+  datapoint.tgl = tgl;
+  datapoint.kasus = kasus;
+  if (globalChart != null) {
+    globalChart.destroy();
+  }
+
+  const data = {
+    labels: datapoint.tgl,
+    datasets: [
+      {
+        label: "Jumlah Kasus",
+        data: bouncer(datapoint.kasus),
+        borderColor: "#0F00FF",
+        backgroundColor: "#0F00FF",
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      },
+      {
+        label: "Model Linear",
+        data: linearModel(bouncer(datapoint.kasus)),
+        borderColor: "#FFA400",
+        backgroundColor: "#FFA400",
+        borderDash: [20, 10],
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      },
+      {
+        label: "Model Kuadratik",
+        data: quadraticModel(bouncer(datapoint.kasus)),
+        borderColor: "#E02401",
+        backgroundColor: "#E02401",
+        borderDash: [20, 10],
+        fill: false,
+        cubicInterpolationMode: "monotone",
+      },
+    ],
+  };
+
+  //config
+  const config = {
+    type: "line",
+    data: data,
+    options: {
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
+      aspectRatio: 1.4,
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Grafik Kasus Harian Covid-19 di Indonesia",
+          font: {
+            size: 20,
+          },
+        },
+      },
+      interaction: {
+        intersect: false,
+      },
+      layout: {
+        padding: 3,
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+            text: "Tanggal",
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: "Jumlah Kasus",
+          },
+        },
+      },
+    },
+  };
+  globalChart = new Chart(ctx, config);
+}
+
 async function drawChart(title, titleline, xtitle, ytitle, click) {
   //data
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -136,6 +253,7 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
 }
 
 async function drawDynamicChart(){
+  if (dynamicChart != null) dynamicChart.destroy();
   var dynamic = document.getElementById('dynamic').getContext('2d');
   // <block:data:2>
   let data = await getData();
