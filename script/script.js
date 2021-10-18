@@ -29,8 +29,8 @@ async function graphByDate() {
   let temp1 = moment(dateStart.value)
   let temp2 = moment(dateEnd.value)
 
-  dateStart = temp1.format("YYYY-MM-DD")
-  dateEnd = temp2.format("YYYY-MM-DD")
+  dateStart = temp1.format("DD-MM-YYYY")
+  dateEnd = temp2.format("DD-MM-YYYY")
 
   var ctx = document.getElementById('myChart').getContext('2d');
   Chart.defaults.scales.linear.min = 0;
@@ -39,17 +39,11 @@ async function graphByDate() {
   let indexStart = datapoint.tgl.indexOf(dateStart);
   let indexEnd = datapoint.tgl.indexOf(dateEnd);
 
-  console.log(indexStart)
-  console.log(indexEnd)
-
   if(indexEnd < indexStart){
     let temp = indexEnd;
     indexEnd = indexStart;
     indexStart = temp;
   }
-
-  console.log(indexStart)
-  console.log(indexEnd)
 
   const tgl = datapoint.tgl.slice(indexStart, indexEnd);
   const kasus = datapoint.kasus.slice(indexStart, indexEnd);
@@ -111,6 +105,13 @@ async function graphByDate() {
             size: 20,
           },
         },
+        subtitle: {
+          display: true,
+          font: {
+            size: 14,
+          },
+          text: `${temp1.format("DD-MM-YYYY")} sampai ${temp2.format("DD-MM-YYYY")}`
+        }
       },
       interaction: {
         intersect: false,
@@ -153,7 +154,7 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
     }
   }
   if (click == "2020") {
-    const slice = datapoint.tgl.indexOf("2021-01-01");
+    const slice = datapoint.tgl.indexOf("01-01-2021");
     const tgl = datapoint.tgl.slice(0, slice);
     const kasus = datapoint.kasus.slice(0, slice);
     datapoint.tgl = tgl;
@@ -163,7 +164,7 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
     }
   }
   if (click == "2021") {
-    const slice = datapoint.tgl.indexOf("2021-01-01");
+    const slice = datapoint.tgl.indexOf("01-01-2021");
     const tgl = datapoint.tgl.slice(slice, panjang);
     const kasus = datapoint.kasus.slice(slice, panjang);
     datapoint.tgl = tgl;
@@ -225,6 +226,13 @@ async function drawChart(title, titleline, xtitle, ytitle, click) {
             size: 20,
           },
         },
+        subtitle: {
+          display: true,
+          font: {
+            size: 14,
+          },
+          text: (click !== '1') ? `Tahun ${click}` : '' 
+        }
       },
       interaction: {
         intersect: false,
@@ -384,7 +392,7 @@ async function getData() {
     .then(res => {
         res.forEach(element => {
             let tanggal = moment(element.tanggal)
-            tanggal = tanggal.format("YYYY-MM-DD")
+            tanggal = tanggal.format("DD-MM-YYYY")
             tgl.push(tanggal);
             kasus.push(element.positif);
         });
@@ -394,6 +402,5 @@ async function getData() {
         };
     })
     .catch(error => console.log(error));
-
     return data;
 }
