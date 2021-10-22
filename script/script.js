@@ -8,7 +8,7 @@ drawChart(
     "Jumlah Kasus",
     "Tanggal",
     "Jumlah Kasus",
-    "2021"
+    "2020"
 );
 
 function graph() {
@@ -38,6 +38,10 @@ async function graphByDate() {
 
   let indexStart = datapoint.tgl.indexOf(dateStart);
   let indexEnd = datapoint.tgl.indexOf(dateEnd);
+
+  if (indexStart === -1 && indexEnd === -1){
+    alert('Maaf data tidak ditemukan pada tanggal yang anda input');
+  }
 
   if(indexEnd < indexStart){
     let temp = indexEnd;

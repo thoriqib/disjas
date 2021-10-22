@@ -9,25 +9,8 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
 </head>
 <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
-        <div class="container d-flex align-items-center">
-          <a class="navbar-brand" href="#">Dashboard Statistik Distribusi & Jasa</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/disjas">Ekspor</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/disjas/covid.html">Covid-19</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
       <div class="container">
+            <h1 class="text-center my-3">Dashboard Covid-19 Indonesia</h1>
             <div id="loading"></div>
             <div class="card shadow">
                   <div class="card-body">
@@ -51,8 +34,8 @@
                                     onchange="graph()"
                               >
                               <option value="1">Semua</option>
-                              <option value="2020">2020</option>
-                              <option value="2021" selected>2021</option>
+                              <option value="2020" selected>2020</option>
+                              <option value="2021">2021</option>
                               </select>   
                            </div>
                      </div>
@@ -63,11 +46,11 @@
                               <div class="row card-body d-flex justify-content-center align-items-center">
                                     <div class="col-md-5 col-sm-12 mx-1 my-1">
                                           <label for="date-start">Mulai</label>
-                                          <input class="p-2" type="date" name="date-start" id="date-start">
+                                          <input class="p-2" type="date" name="date-start" id="date-start" value="2020-03-02">
                                     </div>
                                     <div class="col-md-5 col-sm-12 mx-1 my-1">
                                           <label for="date-end">Sampai</label>
-                                          <input class="p-2" type="date" name="date-end" id="date-end">
+                                          <input class="p-2" type="date" name="date-end" id="date-end" value="2020-12-31">
                                     </div>
                                     <div class="col">
                                          <button class="btn btn-secondary" onclick="graphByDate()">Submit</button> 
