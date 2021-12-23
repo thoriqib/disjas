@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Bandara Husein Sastranegara</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center my-3" href="flight.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Bandara Husein Sastranegara</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="flight.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Status Penerbangan
+            </div>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="arrival.html">
+                    <i class="fas fa-fw fa-plane-arrival"></i>
+                    <span>Kedatangan</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="departure.html">
+                    <i class="fas fa-fw fa-plane-departure"></i>
+                    <span>Keberangkatan</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+             <!-- Sidebar Message -->
+             <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2 rounded-circle" src="img/thoriq.jpg" alt="...">
+                <p class="text-center mb-2">Thoriq Ibadurrohman</p>
+                <p class="text-center mb-2">221810626</p>
+                <p class="text-center mb-2">4SI1</p>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid mt-3">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-12 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-sm font-weight-bold text-primary text-uppercase">
+                                                Jumlah Keberangkatan</div>
+                                            <div class="text-xs text-muted mb-1 date">Tanggal</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="dep-number">40</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-2x text-gray-300 fa-plane-departure"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-6 col-md-12 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-sm font-weight-bold text-success text-uppercase">
+                                                Jumlah Kedatangan</div>
+                                            <div class="text-xs text-muted mb-1 date">Tanggal</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="arr-number">40</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-2x text-gray-300 fa-plane-arrival"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-info">Lokasi Bandara</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area" id="map">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="row">
+                        <!-- Pie Chart -->
+                        <div class="col-xl-6 col-md-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-info">Jumlah Penerbangan Menurut Bandara Tujuan</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="text-xs text-muted date">Tanggal</div>
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="chart-tujuan"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pie Chart -->
+                        <div class="col-xl-6 col-md-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-info">Jumlah Penerbangan Menurut Bandara Asal</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="text-xs text-muted date">Tanggal</div>
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="chart-asal"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Statistik Penerbangan Bandara Husein Sastranegara 2016</h1>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-7 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-info">Banyaknya Barang dan Bagasi yang Dimuat Serta Dibongkar</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">                
+                                    <div class="flourish-embed flourish-chart" data-src="visualisation/8175444"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-info">Jumlah Penumpang Berangkat & Datang</h6>
+                    
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="flourish-embed flourish-chart" data-src="visualisation/8175421"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Thoriq Ibadurrohman 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+    <script src="script/moment.js"></script>
+    <script src="script/flight.js"></script>
+</body>
+
+</html>
